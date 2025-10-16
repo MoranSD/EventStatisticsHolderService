@@ -6,7 +6,6 @@ namespace EventStatisticsHolderService.Domain.Abstractions
     {
         Task<Guid> Create(GameSession gameSession);
         Task<List<GameSession>> GetAll();
-        Task<GameSession> Get(Guid id);
         Task<Guid> SetEndTime(Guid id, DateTime endTime);
         Task<Guid> Delete(Guid id);
     }
