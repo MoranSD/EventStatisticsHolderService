@@ -3,7 +3,7 @@ using EventStatisticsHolderService.Domain.Models;
 
 namespace EventStatisticsHolderService.DataAccess.Repositories
 {
-    public class GameSessionRepository : IGameSessionRepository
+    public class GameSessionRepository : IGameSessionsRepository
     {
         public Task<Guid> Create(GameSession gameSession)
         {

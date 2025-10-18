@@ -3,15 +3,15 @@
     public class GameEvent
     {
         public Guid Id { get; }
-        public GameSession GameSession { get; }
+        public Guid GameSessionId { get; }
         public string Name { get; }
         public string Content { get; }
         public DateTime CreateDate { get; }
 
-        public GameEvent(Guid id, GameSession gameSession, string name, string content, DateTime createDate)
+        public GameEvent(Guid id, Guid gameSessionId, string name, string content, DateTime createDate)
         {
             Id = id;
-            GameSession = gameSession;
+            GameSessionId = gameSessionId;
             Name = name;
             Content = content;
             CreateDate = createDate;

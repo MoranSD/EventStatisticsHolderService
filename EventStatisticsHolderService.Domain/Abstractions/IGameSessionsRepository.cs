@@ -2,7 +2,7 @@
 
 namespace EventStatisticsHolderService.Domain.Abstractions
 {
-    public interface IGameSessionRepository
+    public interface IGameSessionsRepository
     {
         Task<Guid> Create(GameSession gameSession);
         Task<List<GameSession>> GetAll();

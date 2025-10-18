@@ -3,12 +3,12 @@
     public class User
     {
         public Guid Id { get; }
-        public ICollection<GameProject> GameProjects { get; }
+        public List<Guid> GameProjectIds { get; }
 
-        public User(Guid id, ICollection<GameProject> gameProjects)
+        public User(Guid id, List<Guid> gameProjectIds)
         {
             Id = id;
-            GameProjects = gameProjects;
+            GameProjectIds = gameProjectIds;
         }
     }
 }

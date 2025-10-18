@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventStatisticsHolderService.DataAccess.Repositories
 {
-    public class GameProjectRepository : IGameProjectRepository
+    public class GameProjectRepository : IGameProjectsRepository
     {
         private readonly GameEventsDbContext dbContext;
 
@@ -14,22 +14,27 @@ namespace EventStatisticsHolderService.DataAccess.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task Create(GameProject gameProject)
+        public async Task Create(Guid id, Guid ownerId, string name)
         {
             var gameProjectEntity = new GameProjectEntity()
             {
-                Id = gameProject.Id,
-                OwnerId = gameProject.Owner.Id,
-                Name = gameProject.Name
+                Id = id,
+                OwnerId = ownerId,
+                Name = name,
+                GameSessions = []
             };
 
             await dbContext.GameProjects.AddAsync(gameProjectEntity);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<GameProject>> GetAll()
+        public async Task<List<GameProject>> GetAll(Guid ownerId)
         {
-            return await dbContext.GameProjects.ToListAsync();
+            return await dbContext.GameProjects
+                .Where(x => x.OwnerId == ownerId)
+                .AsNoTracking()
+                .Select(x => new GameProject(x.Id, x.OwnerId, x.Name, x.GameSessions.Select(x => x.Id).ToList()))
+                .ToListAsync();
         }
 
         public async Task Update(Guid id, string name)

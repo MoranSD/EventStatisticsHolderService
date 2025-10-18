@@ -3,16 +3,16 @@
     public class GameProject
     {
         public Guid Id { get; }
-        public User Owner { get; }
+        public Guid OwnerId { get; }
         public string Name { get;}
-        public ICollection<GameSession> GameSessions { get; }
+        public List<Guid> GameSessionIds { get; }
 
-        public GameProject(Guid id, User owner, string name, ICollection<GameSession> gameSessions)
+        public GameProject(Guid id, Guid ownerId, string name, List<Guid> gameSessionIds)
         {
             Id = id;
-            Owner = owner;
+            OwnerId = ownerId;
             Name = name;
-            GameSessions = gameSessions;
+            GameSessionIds = gameSessionIds;
         }
     }
 }

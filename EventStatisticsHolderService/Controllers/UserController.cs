@@ -9,9 +9,9 @@ namespace EventStatisticsHolderService.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IGameProjectRepository gameProjectRepository;
+        private readonly IGameProjectsRepository gameProjectRepository;
 
-        public UserController(IGameProjectRepository gameProjectRepository)
+        public UserController(IGameProjectsRepository gameProjectRepository)
         {
             this.gameProjectRepository = gameProjectRepository;
         }

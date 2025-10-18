@@ -2,10 +2,10 @@
 
 namespace EventStatisticsHolderService.Domain.Abstractions
 {
-    public interface IGameProjectRepository
+    public interface IGameProjectsRepository
     {
         Task Create(Guid id, Guid ownerId, string name);
-        Task<List<GameProject>> GetAll();
+        Task<List<GameProject>> GetAll(Guid ownerId);
         Task Update(Guid id, string name);
         Task Delete(Guid id);
     }

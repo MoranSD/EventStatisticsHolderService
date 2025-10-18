@@ -3,21 +3,21 @@
     public class GameSession
     {
         public Guid Id { get; }
-        public GameProject GameProject { get; }
+        public Guid GameProjectId { get; }
         public DateTime StartTime { get; }
         public DateTime? EndTime { get; private set; }
-        public ICollection<GameEvent> GameEvents { get; }
+        public List<Guid> GameEventIds { get; }
 
-        public GameSession(Guid id, GameProject gameProject, DateTime startTime, ICollection<GameEvent> gameEvents)
+        public GameSession(Guid id, Guid gameProjectId, DateTime startTime, List<Guid> gameEventIds)
         {
             Id = id;
-            GameProject = gameProject;
+            GameProjectId = gameProjectId;
             StartTime = startTime;
-            GameEvents = gameEvents;
+            GameEventIds = gameEventIds;
         }
 
-        public GameSession(Guid id, GameProject gameProject, DateTime startTime, DateTime endTime, ICollection<GameEvent> gameEvents) :
-            this(id, gameProject, startTime, gameEvents)
+        public GameSession(Guid id, Guid gameProjectId, DateTime startTime, DateTime endTime, List<Guid> gameEventIds) :
+            this(id, gameProjectId, startTime, gameEventIds)
         {
             EndTime = endTime;
         }
