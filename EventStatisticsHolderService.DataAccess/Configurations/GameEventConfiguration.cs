@@ -1,14 +1,14 @@
-﻿using EventStatisticsHolderService.Domain.Models;
+﻿using EventStatisticsHolderService.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EventStatisticsHolderService.DataAccess.Configurations
 {
-    public class GameEventConfiguration : IEntityTypeConfiguration<GameEvent>
+    public class GameEventConfiguration : IEntityTypeConfiguration<GameEventEntity>
     {
         private const int MAX_EVENT_NAME_LENGTH = 16;
 
-        public void Configure(EntityTypeBuilder<GameEvent> builder)
+        public void Configure(EntityTypeBuilder<GameEventEntity> builder)
         {
             builder.HasKey(e => e.Id);
 

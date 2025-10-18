@@ -2,11 +2,19 @@
 {
     public class GameEvent
     {
-        public Guid Id { get; set; }
-        public Guid GameSessionId { get; set; }
-        public GameSession GameSession { get; set; } = null!;
-        public string Name { get; set; } = string.Empty;
-        public string Content { get; set; } = string.Empty;
-        public DateTime CreateDate { get; set; }
+        public Guid Id { get; }
+        public GameSession GameSession { get; }
+        public string Name { get; }
+        public string Content { get; }
+        public DateTime CreateDate { get; }
+
+        public GameEvent(Guid id, GameSession gameSession, string name, string content, DateTime createDate)
+        {
+            Id = id;
+            GameSession = gameSession;
+            Name = name;
+            Content = content;
+            CreateDate = createDate;
+        }
     }
 }

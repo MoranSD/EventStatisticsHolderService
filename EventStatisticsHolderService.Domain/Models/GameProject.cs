@@ -2,10 +2,17 @@
 {
     public class GameProject
     {
-        public Guid Id { get; set; }
-        public Guid OwnerId { get; set; }
-        public User Owner { get; set; } = null!;
-        public string Name { get; set; } = string.Empty;
-        public ICollection<GameSession> GameSessions { get; set; } = [];
+        public Guid Id { get; }
+        public User Owner { get; }
+        public string Name { get;}
+        public ICollection<GameSession> GameSessions { get; }
+
+        public GameProject(Guid id, User owner, string name, ICollection<GameSession> gameSessions)
+        {
+            Id = id;
+            Owner = owner;
+            Name = name;
+            GameSessions = gameSessions;
+        }
     }
 }

@@ -1,12 +1,12 @@
-﻿using EventStatisticsHolderService.Domain.Models;
+﻿using EventStatisticsHolderService.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EventStatisticsHolderService.DataAccess.Configurations
 {
-    public class GameSessionConfiguration : IEntityTypeConfiguration<GameSession>
+    public class GameSessionConfiguration : IEntityTypeConfiguration<GameSessionEntity>
     {
-        public void Configure(EntityTypeBuilder<GameSession> builder)
+        public void Configure(EntityTypeBuilder<GameSessionEntity> builder)
         {
             builder.HasKey(s => s.Id);
 
@@ -14,8 +14,6 @@ namespace EventStatisticsHolderService.DataAccess.Configurations
                 .HasOne(s => s.GameProject)
                 .WithMany(p => p.GameSessions)
                 .HasForeignKey(s => s.GameProjectId);
-
-            builder.Property(s => s.StartTime).IsRequired();
 
             builder
                 .HasMany(s => s.GameEvents)

@@ -1,4 +1,5 @@
-﻿using EventStatisticsHolderService.Domain.Abstractions;
+﻿using EventStatisticsHolderService.DataAccess.Entities;
+using EventStatisticsHolderService.Domain.Abstractions;
 using EventStatisticsHolderService.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,19 +16,15 @@ namespace EventStatisticsHolderService.DataAccess.Repositories
 
         public async Task Create(GameProject gameProject)
         {
-            await dbContext.GameProjects.AddAsync(gameProject);
-            await dbContext.SaveChangesAsync();
-        }
-
-        public async Task Delete(Guid id)
-        {
-            var gameProject = await dbContext.GameProjects.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (gameProject != null)
+            var gameProjectEntity = new GameProjectEntity()
             {
-                dbContext.GameProjects.Remove(gameProject);
-                await dbContext.SaveChangesAsync();
-            }
+                Id = gameProject.Id,
+                OwnerId = gameProject.Owner.Id,
+                Name = gameProject.Name
+            };
+
+            await dbContext.GameProjects.AddAsync(gameProjectEntity);
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task<List<GameProject>> GetAll()
@@ -42,6 +39,17 @@ namespace EventStatisticsHolderService.DataAccess.Repositories
             if (gameProject != null)
             {
                 gameProject.Name = name;
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task Delete(Guid id)
+        {
+            var gameProject = await dbContext.GameProjects.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (gameProject != null)
+            {
+                dbContext.GameProjects.Remove(gameProject);
                 await dbContext.SaveChangesAsync();
             }
         }
