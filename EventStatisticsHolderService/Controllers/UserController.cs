@@ -17,17 +17,12 @@ namespace EventStatisticsHolderService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGameProject([FromBody] CreateGameProjectDto createDto)
+        public async Task<IActionResult> CreateGameProject([FromBody] CreateGameProjectDto dto)
         {
-            if (createDto == null)
+            if (dto == null)
                 return BadRequest("Create data is empty");
 
-            var gameProject = new GameProject()
-            {
-                Id = Guid.NewGuid(),
-                Name = createDto.name,
-                GameSessions = []
-            };
+            var gameProject = new GameProject(Guid.NewGuid(), dto.UserId, dto.Name, []);
 
             await gameProjectRepository.Create(gameProject);
             return Ok(gameProject.Id);

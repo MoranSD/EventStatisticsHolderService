@@ -1,4 +1,4 @@
 ﻿namespace EventStatisticsHolderService.DTO
 {
-    public record CreateGameProjectDto(string name);
+    public record CreateGameProjectDto(Guid UserId, string Name);
 }
