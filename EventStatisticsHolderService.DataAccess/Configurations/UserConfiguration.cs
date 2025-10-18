@@ -13,7 +13,7 @@ namespace EventStatisticsHolderService.DataAccess.Configurations
             builder
                 .HasMany(u => u.GameProjects)
                 .WithOne(p => p.Owner)
-                .HasForeignKey(p => p.OwnerId);
+                .HasForeignKey(p => p.UserId);
         }
     }
 }

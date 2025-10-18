@@ -1,4 +1,5 @@
-﻿using EventStatisticsHolderService.Domain.Abstractions;
+﻿using EventStatisticsHolderService.DataAccess.Entities;
+using EventStatisticsHolderService.Domain.Abstractions;
 using EventStatisticsHolderService.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,10 @@ namespace EventStatisticsHolderService.DataAccess.Repositories
 
         public async Task<List<GameEvent>> GetAll(Guid sessionId)
         {
-            return await GetBySession(sessionId).AsNoTracking().ToListAsync();
+            return await GetBySession(sessionId)
+                .AsNoTracking()
+                .Select(x => new GameEvent(x.Id, x.GameSessionId, x.Name, x.Content, x.CreateDate))
+                .ToListAsync();
         }
 
         public async Task DeleteAll(Guid sessionId)
@@ -29,9 +33,10 @@ namespace EventStatisticsHolderService.DataAccess.Repositories
             await GetBySession(sessionId).ExecuteDeleteAsync();
         }
 
-        private IQueryable<GameEvent> GetBySession(Guid sessionId)
+        private IQueryable<GameEventEntity> GetBySession(Guid sessionId)
         {
-            return dbContext.GameEvents.Where(x => x.GameSessionId == sessionId);
+            return dbContext.GameEvents
+                .Where(x => x.GameSessionId == sessionId);
         }
     }
 }

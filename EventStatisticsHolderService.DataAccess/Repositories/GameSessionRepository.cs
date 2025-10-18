@@ -1,33 +1,71 @@
-﻿using EventStatisticsHolderService.Domain.Abstractions;
+﻿using EventStatisticsHolderService.DataAccess.Entities;
+using EventStatisticsHolderService.Domain.Abstractions;
 using EventStatisticsHolderService.Domain.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace EventStatisticsHolderService.DataAccess.Repositories
 {
     public class GameSessionRepository : IGameSessionsRepository
     {
-        public Task<Guid> Create(GameSession gameSession)
+        private readonly GameEventsDbContext dbContext;
+
+        public GameSessionRepository(GameEventsDbContext dbContext)
         {
-            throw new NotImplementedException();
+            this.dbContext = dbContext;
         }
 
-        public Task<Guid> Delete(Guid id)
+        public async Task Create(GameSession gameSession)
         {
-            throw new NotImplementedException();
+            var gameSessionsEntity = new GameSessionEntity()
+            {
+                Id = gameSession.Id,
+                GameProjectId = gameSession.GameProjectId,
+                StartTime = gameSession.StartTime,
+                EndTime = gameSession.EndTime,
+                GameEvents = []
+            };
+
+            await dbContext.GameSessions.AddAsync(gameSessionsEntity);
+            await dbContext.SaveChangesAsync();
         }
 
-        public Task<GameSession> Get(Guid id)
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var gameSessionEntity = await dbContext.GameSessions.FirstOrDefaultAsync(s => s.Id == id);
+
+            if (gameSessionEntity != null)
+            {
+                dbContext.GameSessions.Remove(gameSessionEntity);
+                await dbContext.SaveChangesAsync();
+            }
         }
 
-        public Task<List<GameSession>> GetAll()
+        public async Task<List<GameSession>> GetAll(Guid gameProjectId)
         {
-            throw new NotImplementedException();
+            return await dbContext.GameSessions
+                .Where(x => x.GameProjectId == gameProjectId)
+                .AsNoTracking()
+                .Select(x => new GameSession(
+                    x.Id,
+                    x.GameProjectId,
+                    x.StartTime,
+                    x.EndTime,
+                    x.GameEvents.Select(e => e.Id).ToList()
+                ))
+                .ToListAsync();
         }
 
-        public Task<Guid> SetEndTime(Guid id, DateTime endTime)
+
+        public async Task Update(Guid id, DateTime endTime)
         {
-            throw new NotImplementedException();
+            var gameSessionEntity = await dbContext.GameSessions.FirstOrDefaultAsync(s => s.Id == id);
+
+            if (gameSessionEntity != null)
+            {
+                gameSessionEntity.EndTime = endTime;
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }

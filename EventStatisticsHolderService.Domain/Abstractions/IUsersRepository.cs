@@ -4,6 +4,6 @@ namespace EventStatisticsHolderService.Domain.Abstractions
 {
     public interface IUsersRepository
     {
-        Task<User> Get(Guid id);
+        Task<User?> Get(Guid id);
     }
 }

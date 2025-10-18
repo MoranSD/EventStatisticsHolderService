@@ -14,13 +14,13 @@ namespace EventStatisticsHolderService.DataAccess.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task Create(Guid id, Guid ownerId, string name)
+        public async Task Create(GameProject gameProject)
         {
             var gameProjectEntity = new GameProjectEntity()
             {
-                Id = id,
-                OwnerId = ownerId,
-                Name = name,
+                Id = gameProject.Id,
+                UserId = gameProject.UserId,
+                Name = gameProject.Name,
                 GameSessions = []
             };
 
@@ -28,12 +28,12 @@ namespace EventStatisticsHolderService.DataAccess.Repositories
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<GameProject>> GetAll(Guid ownerId)
+        public async Task<List<GameProject>> GetAll(Guid userId)
         {
             return await dbContext.GameProjects
-                .Where(x => x.OwnerId == ownerId)
+                .Where(x => x.UserId == userId)
                 .AsNoTracking()
-                .Select(x => new GameProject(x.Id, x.OwnerId, x.Name, x.GameSessions.Select(x => x.Id).ToList()))
+                .Select(x => new GameProject(x.Id, x.UserId, x.Name, x.GameSessions.Select(x => x.Id).ToList()))
                 .ToListAsync();
         }
 

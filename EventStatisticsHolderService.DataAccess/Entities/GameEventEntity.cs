@@ -6,7 +6,7 @@
         public Guid GameSessionId { get; set; }
         public GameSessionEntity GameSession { get; set; } = null!;
         public string Name { get; set; } = null!;
-        public string Content { get; set; } = string.Empty;
+        public string? Content { get; set; }
         public DateTime CreateDate { get; set; }
     }
 }
